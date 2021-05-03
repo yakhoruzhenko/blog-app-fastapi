@@ -1,6 +1,6 @@
-../.idea
 venv
 **/*.pyc
 #**/*.db
 .DS_Store
 .deta
+.idea

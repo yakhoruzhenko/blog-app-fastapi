@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from starlette import status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from blog import database, models
-from blog import JWTtoken
+from blog import database
+from blog import JWTtoken, models
 from hashing import Hash
 
 

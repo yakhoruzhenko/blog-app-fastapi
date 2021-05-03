@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from starlette import status
 from typing import List
 from sqlalchemy.orm import Session
-from .. import schemas, database
+from blog import schemas, database
 from ..repository import blog
 import oauth2
 
