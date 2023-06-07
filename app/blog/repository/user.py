@@ -51,11 +51,11 @@ def get_all(db: Session) -> list[schemas.User]:
     return users
 
 
-def get_by_blog_id(blog_id: int, db: Session) -> schemas.User:
-    user = db.query(schemas.User).filter(schemas.User.blogs.id == blog_id).first()
+def get_by_id(id: int, db: Session) -> schemas.User:
+    user = db.query(schemas.User).filter(schemas.User.id == id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'User with the blog id {blog_id} is not found')
+                            detail=f'User with the id {id} is not found')
     return user
 
 

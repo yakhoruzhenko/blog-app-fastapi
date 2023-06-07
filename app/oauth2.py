@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from logging import getLogger
 from typing import Any
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, Header, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm.session import Session
@@ -50,3 +50,11 @@ async def get_current_user(token: str = Depends(oauth2_scheme),
     if user is None:
         raise credentials_exception
     return user
+
+
+def fake_admin_token(token: str = Header('X-Admin-Token')) -> None:
+    if token != 'admin_token':
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Invalid admin token',
+        )
