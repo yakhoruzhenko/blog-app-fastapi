@@ -35,6 +35,7 @@ class Comment(BaseModel):
 
 
 class ShowComment(BaseModel):
+    id: int
     blog_title: str
     user_name: str
     text: str
