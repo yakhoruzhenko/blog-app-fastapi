@@ -1,0 +1,16 @@
+fastapi
+pydantic
+sqlalchemy
+uvicorn
+passlib
+bcrypt
+python-jose
+python-multipart
+flake8
+isort
+mypy
+coverage
+bandit
+types-passlib
+types-python-jose
+sqlalchemy-stubs

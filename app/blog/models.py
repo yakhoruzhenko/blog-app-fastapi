@@ -1,21 +1,41 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from .database import Base
-from sqlalchemy.orm import relationship
+from typing import List
+
+from pydantic import BaseModel
 
 
-class Blog(Base):
-    __tablename__ = 'blogs'
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String)
-    body = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    creator = relationship('User', back_populates='blogs')
+class BaseBlog(BaseModel):
+    title: str
+    body: str
 
 
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    email = Column(String)
-    password = Column(String)
-    blogs = relationship('Blog', back_populates='creator')
+class Blog(BaseBlog):
+    class Config:
+        orm_mode = True
+
+
+class User(BaseModel):
+    name: str
+    email: str
+    password: str
+
+
+class ShowUserInBlog(BaseModel):
+    id: int
+    name: str
+    email: str
+
+    class Config:
+        orm_mode = True
+
+
+class ShowUser(ShowUserInBlog):
+    blogs: List[Blog] = []
+
+
+class ShowBlog(BaseModel):
+    title: str
+    body: str
+    creator: ShowUserInBlog | None = None
+
+    class Config:
+        orm_mode = True

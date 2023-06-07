@@ -1,45 +1,46 @@
-from sqlalchemy.orm import Session
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
 from starlette import status
-from blog import schemas, models
+
+from app.blog import models, schemas
 
 
-def create(request: schemas.Blog, db):
-    new_blog = models.Blog(title=request.title, body=request.body, user_id=1)
+def create(request: models.Blog, db: Session) -> schemas.Blog:
+    new_blog = schemas.Blog(title=request.title, body=request.body, user_id=1)
     db.add(new_blog)
     db.commit()
     db.refresh(new_blog)
     return new_blog
 
 
-def get_all(db: Session):
-    blogs = db.query(models.Blog).all()
+def get_all(db: Session) -> list[schemas.Blog]:
+    blogs = db.query(schemas.Blog).all()
     return blogs
 
 
-def get_by_id(task_id: int, db: Session):
-    selected_blog = db.query(models.Blog).filter(models.Blog.id == task_id).first()
+def get_by_blog_id(blog_id: int, db: Session) -> schemas.Blog:
+    selected_blog = db.query(schemas.Blog).filter(schemas.Blog.id == blog_id).first()
     if not selected_blog:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'Blog with the id {task_id} is not found')
+                            detail=f'Blog with the id {blog_id} is not found')
     return selected_blog
 
 
-def update(task_id: int, request: schemas.Blog, db):
-    selected_blog = db.query(models.Blog).filter(models.Blog.id == task_id)
+def update(blog_id: int, request: models.Blog, db: Session) -> str:
+    selected_blog = db.query(schemas.Blog).filter(schemas.Blog.id == blog_id)
     if not selected_blog.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'Blog with the id {task_id} is not found')
-    selected_blog.update({'title': request.title, 'body': request.body}, synchronize_session=False)
+                            detail=f'Blog with the id {blog_id} is not found')
+    selected_blog.update({'title': request.title, 'body': request.body})
     db.commit()
-    return f'Blog with id {task_id} has been successfully updated'
+    return f'Blog with id {blog_id} has been successfully updated'
 
 
-def delete(task_id: int, db: Session):
-    selected_blog = db.query(models.Blog).filter(models.Blog.id == task_id)
+def delete(blog_id: int, db: Session) -> str:
+    selected_blog = db.query(schemas.Blog).filter(schemas.Blog.id == blog_id)
     if not selected_blog.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'Blog with the id {task_id} is not found')
-    selected_blog.delete(synchronize_session=False)
+                            detail=f'Blog with the id {blog_id} is not found')
+    selected_blog.delete()
     db.commit()
-    return f'Blog with id {task_id} has been successfully deleted'
+    return f'Blog with id {blog_id} has been successfully deleted'

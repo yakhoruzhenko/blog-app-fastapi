@@ -1,6 +1,8 @@
-venv
+*mypy_cache
+*venv
 **/*.pyc
 #**/*.db
 .DS_Store
 .deta
 .idea
+**/__pycache__
