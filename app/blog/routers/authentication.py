@@ -3,7 +3,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from starlette import status
 
-from app.blog import JWTtoken, schemas
+from app import oauth2
+from app.blog import schemas
 from app.blog.database import get_db
 from app.hashing import Hash
 
@@ -23,5 +24,5 @@ def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f'Invalid password for {request.username}')
 
-    access_token = JWTtoken.create_access_token(data={"sub": user.name})
+    access_token = oauth2.create_access_token(data={"name": user.name, "id": user.id})
     return {"access_token": access_token, "token_type": "bearer"}

@@ -24,7 +24,16 @@ def get_by_blog_id(blog_id: int, db: Session) -> schemas.User:
     user = db.query(schemas.User).filter(schemas.User.blogs.id == blog_id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'User with the id {blog_id} is not found')
+                            detail=f'User with the blog id {blog_id} is not found')
+    return user
+
+
+def get_by_name_and_id(name: str, id: int, db: Session) -> schemas.User:
+    user = db.query(schemas.User).filter(schemas.User.id == id,
+                                         schemas.User.name == name).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'User with the id {id} and name {name} is not found')
     return user
 
 
