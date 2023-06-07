@@ -5,6 +5,8 @@ from starlette import status
 from app.blog.database import get_db
 from app.blog.models import ShowUser, User
 from app.blog.repository import user
+from app.blog.schemas import User as UserDB
+from app.oauth2 import get_current_user
 
 router = APIRouter(
     prefix='/user',
@@ -20,3 +22,9 @@ def create_user(request: User, db: Session = Depends(get_db)) -> ShowUser:
 @router.put('/', status_code=status.HTTP_204_NO_CONTENT)
 def update_user_password(request: User, db: Session = Depends(get_db)) -> None:
     user.reset_password(request, db)
+
+
+@router.get('/', response_model=ShowUser, status_code=status.HTTP_200_OK)
+def get_current_user_profile(db: Session = Depends(get_db),
+                             current_user: UserDB = Depends(get_current_user)) -> ShowUser:
+    return ShowUser.from_orm(user.get_by_id(current_user.id, db))
