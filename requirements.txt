@@ -14,3 +14,5 @@ bandit
 types-passlib
 types-python-jose
 sqlalchemy-stubs
+pytest
+pytest-cov

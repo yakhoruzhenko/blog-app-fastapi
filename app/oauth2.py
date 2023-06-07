@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from logging import getLogger
 from typing import Any
 
 from fastapi import Depends, Header, HTTPException
@@ -13,9 +12,6 @@ from app.blog.repository.user import get_by_name_and_id
 from app.blog.schemas import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-
-
-logger = getLogger("uvicorn")
 
 
 SECRET_KEY = "fcb83a311c0ab22310e16417b84de96d496c5f80906b4e14c00b15de44f56a8c"
