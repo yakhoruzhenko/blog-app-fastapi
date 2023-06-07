@@ -7,17 +7,29 @@ from .database import Base
 class Blog(Base):
     __tablename__ = 'blogs'
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, unique=True)
-    body = Column(String)
+    title = Column(String, unique=True, nullable=False)
+    body = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     creator = relationship('User', back_populates='blogs')
+    comments = relationship('Comment')
 
 
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True)
-    email = Column(String)
-    password = Column(String)
+    name = Column(String, unique=True, nullable=False)
+    email = Column(String, nullable=False)
+    password = Column(String, nullable=False)
     secret = Column(String, nullable=True)
     blogs = relationship('Blog', back_populates='creator')
+    comments = relationship('Comment')
+
+
+class Comment(Base):
+    __tablename__ = 'comments'
+    id = Column(Integer, primary_key=True, index=True)
+    text = Column(String, nullable=False)
+    user_name = Column(String, ForeignKey('users.name'))
+    blog_title = Column(String, ForeignKey('blogs.title'))
+    creator = relationship('User', back_populates='comments')
+    blog = relationship('Blog', back_populates='comments')

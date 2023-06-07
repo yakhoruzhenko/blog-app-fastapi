@@ -52,7 +52,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme),
     return user
 
 
-def fake_admin_token(token: str = Header('X-Admin-Token')) -> None:
+def fake_admin_token(token: str = Header('admin_token')) -> None:
     if token != 'admin_token':
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

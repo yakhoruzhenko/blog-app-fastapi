@@ -29,5 +29,28 @@ class ShowUserInBlog(BaseModel):
         orm_mode = True
 
 
+class Comment(BaseModel):
+    blog_title: str
+    text: str
+
+
+class ShowComment(BaseModel):
+    blog_title: str
+    user_name: str
+    text: str
+
+    class Config:
+        orm_mode = True
+
+
 class ShowUser(ShowUserInBlog):
     blogs: List[Blog] = []
+    comments: List[ShowComment] = []
+
+
+class ShowBlog(BaseBlog):
+    creator: ShowUserInBlog
+    comments: List[ShowComment] = []
+
+    class Config:
+        orm_mode = True
