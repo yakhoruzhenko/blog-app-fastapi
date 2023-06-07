@@ -21,7 +21,7 @@ def create(request: models.User, db: Session) -> schemas.User:
     return new_user
 
 
-def reset_password(request: models.User, db: Session) -> schemas.User:
+def reset_password(request: models.User, db: Session) -> None:
     user = db.query(schemas.User).filter(schemas.User.email == request.email,
                                          schemas.User.name == request.name).first()
     if not user:
@@ -43,7 +43,6 @@ def reset_password(request: models.User, db: Session) -> schemas.User:
     user.password = Hash.bcrypt(request.password)
     db.add(user)
     db.commit()
-    return user
 
 
 def get_all(db: Session) -> list[schemas.User]:

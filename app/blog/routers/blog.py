@@ -32,13 +32,13 @@ def delete(blog_id: int, db: Session = Depends(get_db),
     return blog.delete(blog_id, current_user.id, db)
 
 
-@router.get('/', response_model=list[models.ShowBlog], status_code=status.HTTP_200_OK)
+@router.get('/', response_model=list[models.Blog], status_code=status.HTTP_200_OK)
 def show_all_blogs(db: Session = Depends(get_db),
                    current_user: User = Depends(get_current_user)) -> list[models.Blog]:
     return [models.Blog.from_orm(blog_db) for blog_db in blog.get_all(current_user.id, db)]
 
 
-@router.get('/{id}', response_model=models.ShowBlog, status_code=status.HTTP_200_OK)
+@router.get('/{id}', response_model=models.Blog, status_code=status.HTTP_200_OK)
 def show_blog_by_id(blog_id: int, db: Session = Depends(get_db),
                     current_user: User = Depends(get_current_user)) -> models.Blog:
     return models.Blog.from_orm(blog.get_by_blog_id(blog_id, current_user.id, db))

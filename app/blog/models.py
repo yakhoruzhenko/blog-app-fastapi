@@ -31,12 +31,3 @@ class ShowUserInBlog(BaseModel):
 
 class ShowUser(ShowUserInBlog):
     blogs: List[Blog] = []
-
-
-class ShowBlog(BaseModel):
-    title: str
-    body: str
-    creator: ShowUserInBlog | None = None
-
-    class Config:
-        orm_mode = True

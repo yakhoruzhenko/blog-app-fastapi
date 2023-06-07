@@ -17,6 +17,6 @@ def create_user(request: User, db: Session = Depends(get_db)) -> ShowUser:
     return ShowUser.from_orm(user.create(request, db))
 
 
-@router.put('/', response_model=ShowUser, status_code=status.HTTP_200_OK)
-def update_user_password(request: User, db: Session = Depends(get_db)) -> ShowUser:
-    return ShowUser.from_orm(user.reset_password(request, db))
+@router.put('/', status_code=status.HTTP_204_NO_CONTENT)
+def update_user_password(request: User, db: Session = Depends(get_db)) -> None:
+    user.reset_password(request, db)
