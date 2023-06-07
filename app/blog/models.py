@@ -17,6 +17,7 @@ class User(BaseModel):
     name: str
     email: str
     password: str
+    secret: str | None = None
 
 
 class ShowUserInBlog(BaseModel):

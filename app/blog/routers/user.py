@@ -30,3 +30,8 @@ def all_users(db: Session = Depends(get_db)) -> list[ShowUser]:
 @router.delete('/{id}', status_code=status.HTTP_200_OK)
 def delete_by_user_id(id: int, db: Session = Depends(get_db)) -> str:
     return user.delete(id, db)
+
+
+@router.put('/', response_model=ShowUser, status_code=status.HTTP_200_OK)
+def update_user_password(request: User, db: Session = Depends(get_db)) -> ShowUser:
+    return ShowUser.from_orm(user.reset_password(request, db))

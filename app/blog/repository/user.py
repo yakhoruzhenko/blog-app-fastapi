@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from starlette import status
 
@@ -8,11 +9,41 @@ from app.hashing import Hash
 
 def create(request: models.User, db: Session) -> schemas.User:
     new_user = schemas.User(name=request.name, email=request.email,
-                            password=Hash.bcrypt(request.password))
+                            password=Hash.bcrypt(request.password),
+                            secret=request.secret)
     db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                            detail=f'User with name {request.name} already exists')
     return new_user
+
+
+def reset_password(request: models.User, db: Session) -> schemas.User:
+    user = db.query(schemas.User).filter(schemas.User.email == request.email,
+                                         schemas.User.name == request.name).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'User with the name {request.name} and email {request.email} is not found'
+        )
+    if not user.secret:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail='Impossible to recover user who did not configure secret'
+        )
+    else:
+        if request.secret != user.secret:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail='Wrong secret'
+            )
+    user.password = Hash.bcrypt(request.password)
+    db.add(user)
+    db.commit()
+    return user
 
 
 def get_all(db: Session) -> list[schemas.User]:

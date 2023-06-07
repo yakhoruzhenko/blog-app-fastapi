@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from starlette import status
 
@@ -8,8 +9,12 @@ from app.blog import models, schemas
 def create(request: models.Blog, user_id: int, db: Session) -> schemas.Blog:
     new_blog = schemas.Blog(title=request.title, body=request.body, user_id=user_id)
     db.add(new_blog)
-    db.commit()
-    db.refresh(new_blog)
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                            detail=f'Blog with title {request.title} already exists')
     return new_blog
 
 
