@@ -18,8 +18,8 @@ def create(request: models.Blog, user_id: int, db: Session) -> schemas.Blog:
     return new_blog
 
 
-def get_all(user_id: int, db: Session) -> list[schemas.Blog]:
-    blogs = db.query(schemas.Blog).filter(schemas.Blog.user_id == user_id).all()
+def get_all(db: Session) -> list[schemas.Blog]:
+    blogs = db.query(schemas.Blog).all()
     return blogs
 
 
