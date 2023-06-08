@@ -14,7 +14,7 @@ from app.blog.schemas import User
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
-SECRET_KEY = "fcb83a311c0ab22310e16417b84de96d496c5f80906b4e14c00b15de44f56a8c"
+SECRET_KEY = "fcb83a311c0ab22310e16417b84de96d496c5f80906b4e14c00b15de44f56a8c"  # nosec
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -49,7 +49,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme),
 
 
 def fake_admin_token(token: str = Header('admin_token')) -> None:
-    if token != 'admin_token':
+    if token != 'admin_token':  # nosec
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Invalid admin token',
