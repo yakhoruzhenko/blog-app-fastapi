@@ -16,3 +16,5 @@ types-python-jose
 sqlalchemy-stubs
 pytest
 pytest-cov
+httpx
+pytest-env
