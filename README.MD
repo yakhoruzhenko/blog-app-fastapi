@@ -1,4 +1,6 @@
 # BLOG APPLICATION
+## Author
+Yaroslav Khoruzhenko
 
 ## Application technologies stack
 Key frameworks and libraries which are used by this application are: `FastAPI` (main framework), `uvicorn` (ASGI web server implementation), `SQLAlchemy` (ORM approach), `SQLite` (as a DB engine)
