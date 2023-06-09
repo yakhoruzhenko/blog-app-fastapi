@@ -4,12 +4,12 @@ from starlette import status
 
 from app.blog import models
 from app.blog.database import get_db
-from app.blog.repository import blog
+from app.blog.repositories import blog
 from app.blog.schemas import User
 from app.oauth2 import get_current_user
 
 router = APIRouter(
-    prefix='/blog',
+    prefix='/blogs',
     tags=['Blogs']
 )
 

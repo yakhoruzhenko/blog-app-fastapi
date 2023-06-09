@@ -4,7 +4,7 @@ from starlette import status
 
 from app.blog import models
 from app.blog.database import get_db
-from app.blog.repository import comment
+from app.blog.repositories import comment
 from app.blog.schemas import User
 from app.oauth2 import get_current_user
 

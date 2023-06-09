@@ -8,7 +8,7 @@ from sqlalchemy.orm.session import Session
 from starlette import status
 
 from app.blog.database import get_db
-from app.blog.repository.user import get_by_name_and_id
+from app.blog.repositories.user import get_by_name_and_id
 from app.blog.schemas import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
