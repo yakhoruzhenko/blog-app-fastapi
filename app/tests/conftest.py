@@ -1,3 +1,5 @@
+import random
+import string
 from typing import Iterable
 
 import pytest
@@ -7,8 +9,9 @@ from app.blog.database import Base, engine
 from app.main import app
 
 
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture(scope='function', autouse=True)
 def database() -> Iterable[None]:
+    Base.metadata.create_all(engine)
     yield
     Base.metadata.drop_all(engine)
 
@@ -16,3 +19,7 @@ def database() -> Iterable[None]:
 @pytest.fixture(scope='session')
 def session_test_client() -> TestClient:
     return TestClient(app)
+
+
+def random_string(k: int = 10) -> str:
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=k))
