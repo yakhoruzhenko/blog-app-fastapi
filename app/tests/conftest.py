@@ -17,7 +17,7 @@ def database() -> Iterable[None]:
 
 
 @pytest.fixture(scope='session')
-def session_test_client() -> TestClient:
+def test_client() -> TestClient:
     return TestClient(app)
 
 

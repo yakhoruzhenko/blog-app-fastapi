@@ -9,7 +9,7 @@ from app.blog.schemas import User as UserDB
 from app.oauth2 import get_current_user
 
 router = APIRouter(
-    prefix='/user',
+    prefix='/users',
     tags=['Users']
 )
 
