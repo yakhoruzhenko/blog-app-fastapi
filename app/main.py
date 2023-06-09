@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
+from app.blog.controllers import admin, authentication, blogs, comments, users
 from app.blog.database import Base, engine
-from app.blog.routers import admin, authentication, blogs, comments, users
 
 Base.metadata.create_all(engine)
 app = FastAPI()

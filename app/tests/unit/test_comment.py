@@ -3,7 +3,7 @@ from fastapi import HTTPException
 
 from app.blog import models, schemas
 from app.blog.database import get_db
-from app.blog.repository import comment
+from app.blog.repositories import comment
 from app.tests.conftest import random_string
 
 
