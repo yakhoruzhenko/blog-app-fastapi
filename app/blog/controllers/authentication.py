@@ -3,9 +3,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from starlette import status
 
-from app.blog.services import oauth2
 from app.blog.infra import schemas
 from app.blog.infra.database import get_db
+from app.blog.services import oauth2
 from app.blog.services.hashing import Hash
 
 router = APIRouter(
