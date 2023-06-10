@@ -50,6 +50,7 @@ class ShowUser(ShowUserInBlog):
 
 
 class ShowBlog(BaseBlog):
+    id: int
     creator: ShowUserInBlog
     comments: List[ShowComment] = []
 

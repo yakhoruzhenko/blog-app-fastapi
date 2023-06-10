@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from app.blog import models
-from app.blog.database import get_db
+from app.blog.infra.database import get_db
+from app.blog.infra.schemas import User
 from app.blog.repositories import comment
-from app.blog.schemas import User
-from app.oauth2 import get_current_user
+from app.blog.services.oauth2 import get_current_user
 
 router = APIRouter(
     prefix='/comments',
@@ -21,6 +21,6 @@ def create_comment(request: models.Comment, db: Session = Depends(get_db),
 
 
 @router.delete('/{id}', status_code=status.HTTP_200_OK)
-def delete(comment_id: int, db: Session = Depends(get_db),
+def delete(id: int, db: Session = Depends(get_db),
            current_user: User = Depends(get_current_user)) -> str:
-    return comment.delete(comment_id, current_user.name, db)
+    return comment.delete(id, db)

@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from starlette import status
 
 from app.blog import models
-from app.blog.database import get_db
+from app.blog.infra.database import get_db
+from app.blog.infra.schemas import User
 from app.blog.repositories import blog
-from app.blog.schemas import User
-from app.oauth2 import get_current_user
+from app.blog.services.oauth2 import get_current_user
 
 router = APIRouter(
     prefix='/blogs',
@@ -20,16 +20,16 @@ def create_blog(request: models.Blog, db: Session = Depends(get_db),
     return models.ShowBlog.from_orm(blog.create(request, current_user.id, db))
 
 
-@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
-def update_blog(blog_id: int, request: models.Blog, db: Session = Depends(get_db),
+@router.put('/{id}', status_code=status.HTTP_200_OK)
+def update_blog(id: int, request: models.Blog, db: Session = Depends(get_db),
                 current_user: User = Depends(get_current_user)) -> str:
-    return blog.update(blog_id, request, current_user.id, db)
+    return blog.update(id, request, current_user.id, db)
 
 
 @router.delete('/{id}', status_code=status.HTTP_200_OK)
-def delete(blog_id: int, db: Session = Depends(get_db),
+def delete(id: int, db: Session = Depends(get_db),
            current_user: User = Depends(get_current_user)) -> str:
-    return blog.delete(blog_id, current_user.id, db)
+    return blog.delete(id, current_user.id, db)
 
 
 @router.get('/', response_model=list[models.ShowBlog], status_code=status.HTTP_200_OK)
@@ -38,6 +38,6 @@ def show_all_blogs(db: Session = Depends(get_db)) -> list[models.ShowBlog]:
 
 
 @router.get('/{id}', response_model=models.ShowBlog, status_code=status.HTTP_200_OK)
-def show_blog_by_id(blog_id: int, db: Session = Depends(get_db),
+def show_blog_by_id(id: int, db: Session = Depends(get_db),
                     current_user: User = Depends(get_current_user)) -> models.ShowBlog:
-    return models.ShowBlog.from_orm(blog.get_by_blog_id(blog_id, current_user.id, db))
+    return models.ShowBlog.from_orm(blog.get_by_blog_id(id, current_user.id, db))

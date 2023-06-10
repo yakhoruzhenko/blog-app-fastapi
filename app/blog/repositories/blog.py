@@ -3,7 +3,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from starlette import status
 
-from app.blog import models, schemas
+from app.blog import models
+from app.blog.infra import schemas
 
 
 def create(request: models.Blog, user_id: int, db: Session) -> schemas.Blog:

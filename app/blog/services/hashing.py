@@ -17,6 +17,6 @@ class Hash:
     def verify(hashed_password: str, plain_password: str) -> Any:
         try:
             return pwd_ctx.verify(plain_password, hashed_password)
-        except UnknownHashError as exc:
+        except UnknownHashError as exc:  # pragma: no cover
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                 detail=f'{exc}')
