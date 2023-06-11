@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from starlette import status
 
-from app.blog.database import get_db
+from app.blog.infra.database import get_db
 from app.blog.models import ShowUser
 from app.blog.repositories import user
-from app.oauth2 import fake_admin_token
+from app.blog.services.oauth2 import fake_admin_token
 
 router = APIRouter(
     prefix='/admin/user',

@@ -3,8 +3,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from starlette import status
 
-from app.blog import models, schemas
-from app.hashing import Hash
+from app.blog import models
+from app.blog.infra import schemas
+from app.blog.services.hashing import Hash
 
 
 def create(request: models.User, db: Session) -> schemas.User:
@@ -55,15 +56,6 @@ def get_by_id(id: int, db: Session) -> schemas.User:
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'User with the id {id} is not found')
-    return user
-
-
-def get_by_name_and_id(name: str, id: int, db: Session) -> schemas.User:
-    user = db.query(schemas.User).filter(schemas.User.id == id,
-                                         schemas.User.name == name).first()
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'User with the id {id} and name {name} is not found')
     return user
 
 

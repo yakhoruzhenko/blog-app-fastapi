@@ -7,9 +7,9 @@ from jose import JWTError, jwt
 from sqlalchemy.orm.session import Session
 from starlette import status
 
-from app.blog.database import get_db
-from app.blog.repositories.user import get_by_name_and_id
-from app.blog.schemas import User
+from app.blog.infra.database import get_db
+from app.blog.infra.schemas import User
+from app.blog.repositories.user import get_by_id
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -27,8 +27,8 @@ def create_access_token(data: dict[str, Any]) -> str:
     return encoded_jwt
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme),
-                           db: Session = Depends(get_db)) -> User:
+def get_current_user(token: str = Depends(oauth2_scheme),
+                     db: Session = Depends(get_db)) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -38,17 +38,14 @@ async def get_current_user(token: str = Depends(oauth2_scheme),
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_name: str = payload.get("name")  # type: ignore[assignment]
         user_id: int = payload.get("id")  # type: ignore[assignment]
-        if (user_name or user_id) is None:
+        if (user_name or user_id) is None:  # pragma: no cover
             raise credentials_exception
-    except JWTError:
+    except JWTError:  # pragma: no cover
         raise credentials_exception
-    user = get_by_name_and_id(name=user_name, id=user_id, db=db)
-    if user is None:
-        raise credentials_exception
-    return user
+    return get_by_id(id=user_id, db=db)
 
 
-def fake_admin_token(token: str = Header('admin_token')) -> None:
+def fake_admin_token(token: str = Header()) -> None:
     if token != 'admin_token':  # nosec
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

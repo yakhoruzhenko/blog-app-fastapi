@@ -1,8 +1,9 @@
 import pytest
 from fastapi import HTTPException
 
-from app.blog import models, schemas
-from app.blog.database import get_db
+from app.blog import models
+from app.blog.infra import schemas
+from app.blog.infra.database import get_db
 from app.blog.repositories import blog, comment, user
 from app.tests.conftest import random_string
 
@@ -14,6 +15,7 @@ def test_create_comment() -> None:
     new_blog = blog.create(models.Blog(title='Cool title', body='blog body'), new_user.id, db)
     new_comment = comment.create(models.Comment(
         text=text, blog_title=new_blog.title), user_name=new_user.name, db=db)
+    next(get_db())
 
     assert type(new_comment) is schemas.Comment
     assert new_comment.text == text
@@ -30,7 +32,8 @@ def test_delete_comment_success() -> None:
 
     assert new_comment.user_name
 
-    response = comment.delete(new_comment.id, new_comment.user_name, db=db)
+    response = comment.delete(new_comment.id, db)
+    next(get_db())
 
     assert response == f'Comment with id {new_comment.id} has been successfully deleted'
 
@@ -38,4 +41,12 @@ def test_delete_comment_success() -> None:
 def test_delete_comment_raises() -> None:
     db = next(get_db())
     with pytest.raises(HTTPException):
-        comment.delete(0, random_string(), db=db)
+        comment.delete(0, db)
+    next(get_db())
+
+
+def test_get_commment_id_not_found() -> None:
+    db = next(get_db())
+    with pytest.raises(HTTPException):
+        comment.get_id(random_string(), db)
+    next(get_db())

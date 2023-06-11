@@ -5,7 +5,7 @@ from typing import Iterable
 import pytest
 from fastapi.testclient import TestClient
 
-from app.blog.database import Base, engine
+from app.blog.infra.database import Base, engine
 from app.main import app
 
 
