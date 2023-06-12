@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 from typing import Any
 
@@ -14,7 +15,10 @@ from app.blog.repositories.user import get_by_id
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
-SECRET_KEY = "fcb83a311c0ab22310e16417b84de96d496c5f80906b4e14c00b15de44f56a8c"  # nosec
+SECRET_KEY = os.getenv('SECRET_KEY',
+                       'fcb83a311c0ab22310e16417b84de96d496c5f80906b4e14c00b15de44f56a8c')
+ADMIN_TOKEN = os.getenv('ADMIN_TOKEN', 'admin_token')
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -46,7 +50,7 @@ def get_current_user(token: str = Depends(oauth2_scheme),
 
 
 def fake_admin_token(token: str = Header()) -> None:
-    if token != 'admin_token':  # nosec
+    if token != ADMIN_TOKEN:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Invalid admin token',
