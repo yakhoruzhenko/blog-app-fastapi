@@ -31,7 +31,7 @@ jobs:
       - name: Run ZAP Scan on uvicorn server
         uses: zaproxy/action-api-scan@v0.1.1
         with:
-          target: 'http://0.0.0.0:8000'
+          target: 'http://0.0.0.0:8000/docs'
           fail_action: true
           allow_issue_writing: false
       - name: Test with pytest
