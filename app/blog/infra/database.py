@@ -11,8 +11,8 @@ from sqlalchemy.pool.base import _ConnectionRecord
 env = os.getenv('env', 'prod')
 DATABASE_URL = 'sqlite:///./blog.db'
 TEST_DATABASE_URL = 'sqlite:///./blog_test.db'
-engine = create_engine(DATABASE_URL if env == 'prod' else TEST_DATABASE_URL,
-                       connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL if env == 'prod' else TEST_DATABASE_URL, pool_size=500,
+                       max_overflow=0, connect_args={"check_same_thread": False})
 
 
 def _fk_pragma_on_connect(dbapi_con: Connection, con_record: _ConnectionRecord) -> None:
