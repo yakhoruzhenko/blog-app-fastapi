@@ -26,6 +26,16 @@ jobs:
       - name: Security check
         run: |
           bandit -r .
+      - name: Run server
+        run: uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+      - name: Run ZAP Scan on uvicorn server
+        uses: zaproxy/action-api-scan@v0.1.1
+        with:
+          format: openapi
+          target: 'http://0.0.0.0:8000/docs/'
+          fail_action: false
+          allow_issue_writing: false
+          docker_name: 'owasp/zap2docker-stable'
       - name: Test with pytest
         run: |
           pytest .
