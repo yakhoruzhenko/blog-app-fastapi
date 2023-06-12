@@ -35,7 +35,7 @@ def test_create_blog_already_exists(test_client: TestClient) -> None:
         assert second_blog_response.json() == {'detail': f'Blog with title {title} already exists'}
 
 
-def test_create_update_blog_success(test_client: TestClient) -> None:
+def test_update_blog_success(test_client: TestClient) -> None:
     username = 'john'
     password = '123'
     title = 'Cool title'
@@ -71,7 +71,7 @@ def test_create_update_blog_success(test_client: TestClient) -> None:
             f'Blog with id {blog_id} has been successfully updated'
 
 
-def test_create_update_blog_not_found(test_client: TestClient) -> None:
+def test_update_blog_not_found(test_client: TestClient) -> None:
     username = 'john'
     password = '123'
     title = 'Cool title'
