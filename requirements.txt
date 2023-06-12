@@ -19,3 +19,4 @@ pytest-cov
 httpx
 pytest-env
 pytest_mock
+locust
