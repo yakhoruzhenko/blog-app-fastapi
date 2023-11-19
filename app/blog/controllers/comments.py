@@ -17,7 +17,7 @@ router = APIRouter(
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def create_comment(request: models.Comment, db: Session = Depends(get_db),
                    current_user: User = Depends(get_current_user)) -> models.ShowComment:
-    return models.ShowComment.from_orm(comment.create(request, current_user.name, db))
+    return models.ShowComment.model_validate(comment.create(request, current_user.name, db))
 
 
 @router.delete('/{id}', status_code=status.HTTP_200_OK)

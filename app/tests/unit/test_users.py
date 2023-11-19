@@ -11,7 +11,7 @@ def test_create_comment(test_client: TestClient, mocker: MockerFixture) -> None:
     id = 1
 
     mock_user_create = mocker.patch('app.blog.controllers.users.user.create')
-    mock_show_user = mocker.patch('app.blog.controllers.users.ShowUser').from_orm
+    mock_show_user = mocker.patch('app.blog.controllers.users.ShowUser').model_validate
     mock_show_user.return_value = ShowUser(
         id=id,
         name=username,
