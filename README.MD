@@ -2,11 +2,11 @@
 ## Author
 Yaroslav Khoruzhenko
 
-## Application technologies stack
+## Application technology stack
 Key frameworks and libraries which are used by this application are: `FastAPI` (main framework), `uvicorn` (ASGI web server implementation), `SQLAlchemy` (ORM approach), `SQLite` (as a DB engine)
 
 ## Local development
-To run the application locally please create python virtual envirnoment. hen, with it being activated, installing all needed dependencies by running `pip install -r requirements.txt`.
+To run the application locally please create python a virtual envirnoment. Then, with it being activated, install all needed dependencies by running `pip install -r requirements.txt`.
 
 This project utilizes several tools for linting and static security checking. Run these commands in command line from your python environment to pass all checks:
 ```
@@ -17,7 +17,7 @@ bandit .
 ```
 
 ## Application local run
-After installing all needed requirements you could run Blogs app with:
+After installing all prerequisite dependencies you could run Blog app with:
 
 ```
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
@@ -30,8 +30,8 @@ http://localhost:8000/docs/
 Path could be different based on how you run uvicorn server.
 
 ## Local testing
-Testing should be conducted with a usage of `pytest` with `coverage` rate equal to `100`.
-To run tests locally under created virtual environment please execute:
+Testing should be conducted with a usage of `pytest` with a `coverage` rate equal to `100`.
+To run tests locally under the created virtual environment please execute:
 ```
 pytest .
 ```
