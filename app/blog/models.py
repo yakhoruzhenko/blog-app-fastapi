@@ -10,7 +10,7 @@ class BaseBlog(BaseModel):
 
 class Blog(BaseBlog):
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class User(BaseModel):
@@ -26,7 +26,7 @@ class ShowUserInBlog(BaseModel):
     email: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Comment(BaseModel):
@@ -41,7 +41,7 @@ class ShowComment(BaseModel):
     text: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class ShowUser(ShowUserInBlog):
@@ -55,4 +55,4 @@ class ShowBlog(BaseBlog):
     comments: List[ShowComment] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
