@@ -1,2 +1,2 @@
 [bandit]
-exclude: ./venv,./.venv,tests
+exclude: ./venv,./.venv,./tests
