@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from locust import HttpUser, TaskSet, between, tag, task
-
-from app.tests.conftest import random_string
+from tests.conftest import random_string
 
 
 class BlogAppTasks(TaskSet):

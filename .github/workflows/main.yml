@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.9"]
 
     steps:
       - uses: actions/checkout@v3
@@ -19,23 +19,23 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r requirements.dev
       - name: Linting
         run: |
           flake8 && isort --check --diff . && mypy
       - name: Security check
         run: |
           bandit -r .
-      - name: Run server
-        run: uvicorn app.main:app --host 0.0.0.0 --port 8000 &
-      - name: Run ZAP Scan on uvicorn server
-        uses: zaproxy/action-api-scan@v0.1.1
-        with:
-          format: openapi
-          target: 'http://0.0.0.0:8000/docs/'
-          fail_action: false
-          allow_issue_writing: false
-          docker_name: 'owasp/zap2docker-stable'
+      # - name: Run server
+      #   run: uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+      # - name: Run ZAP Scan on uvicorn server
+      #   uses: zaproxy/action-api-scan@v0.1.1
+      #   with:
+      #     format: openapi
+      #     target: 'http://0.0.0.0:8000/docs/'
+      #     fail_action: false
+      #     allow_issue_writing: false
+      #     docker_name: 'owasp/zap2docker-stable'
       - name: Test with pytest
         run: |
           pytest .

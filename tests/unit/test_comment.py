@@ -1,11 +1,11 @@
 import pytest
 from fastapi import HTTPException
+from tests.conftest import random_string
 
 from app.blog import models
 from app.blog.infra import schemas
 from app.blog.infra.database import get_db
 from app.blog.repositories import blog, comment, user
-from app.tests.conftest import random_string
 
 
 def test_create_comment() -> None:

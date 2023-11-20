@@ -2,7 +2,9 @@ import cProfile
 import functools
 import os
 import pstats
-from typing import Any, Callable, ParamSpec
+from typing import Any, Callable
+
+from typing_extensions import ParamSpec
 
 P = ParamSpec('P')  # To represent the arguments of the wrapped function
 

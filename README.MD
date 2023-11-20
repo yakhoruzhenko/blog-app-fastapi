@@ -1,4 +1,5 @@
 # BLOG APPLICATION
+https://blogappfastapi-1-p2907302.deta.app/docs
 ## Author
 Yaroslav Khoruzhenko
 

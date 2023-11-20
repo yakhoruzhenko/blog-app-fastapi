@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -17,7 +17,7 @@ class User(BaseModel):
     name: str
     email: str
     password: str
-    secret: str | None = None
+    secret: Optional[str] = None
 
 
 class ShowUserInBlog(BaseModel):
