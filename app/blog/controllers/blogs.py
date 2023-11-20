@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from starlette import status
+from tests.profiler import profile_func
 
 from app.blog import models
 from app.blog.infra.database import get_db
 from app.blog.infra.schemas import User
 from app.blog.repositories import blog
 from app.blog.services.oauth2 import get_current_user
-from app.tests.profiler import profile_func
 
 router = APIRouter(
     prefix='/blogs',

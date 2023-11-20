@@ -1,6 +1,5 @@
 from fastapi.testclient import TestClient
-
-from app.tests.conftest import random_string
+from tests.conftest import random_string
 
 
 def test_get_user_by_id_success(test_client: TestClient) -> None:

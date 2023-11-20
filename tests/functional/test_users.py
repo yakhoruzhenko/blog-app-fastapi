@@ -1,6 +1,5 @@
 from fastapi.testclient import TestClient
-
-from app.tests.conftest import random_string
+from tests.conftest import random_string
 
 
 def test_create_user_already_exists(test_client: TestClient) -> None:
