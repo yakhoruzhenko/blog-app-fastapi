@@ -1,13 +1,15 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from starlette import status
-from tests.profiler import profile_func
 
 from app.blog import models
 from app.blog.infra.database import get_db
 from app.blog.infra.schemas import User
 from app.blog.repositories import blog
 from app.blog.services.oauth2 import get_current_user
+
+# from tests.profiler import profile_func
+
 
 router = APIRouter(
     prefix='/blogs',
@@ -16,7 +18,7 @@ router = APIRouter(
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-@profile_func
+# @profile_func
 def create_blog(request: models.Blog, db: Session = Depends(get_db),
                 current_user: User = Depends(get_current_user)) -> models.ShowBlog:
     return models.ShowBlog.model_validate(blog.create(request, current_user.id, db))

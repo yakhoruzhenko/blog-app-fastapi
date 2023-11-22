@@ -3,8 +3,18 @@ v: 0
 micros:
   - name: blog-app-fastapi
     src: ./
+    include:
+      - app/
+      - blog.db
     engine: python3.9
     primary: true
     run: uvicorn app.main:app --reload
+    dev: uvicorn app.main:app --reload
     public_routes:
       - "/*"
+    presets:
+      env:
+        - name: ADMIN_TOKEN
+          description: Secret message only available to this Micro
+          default: "admin_token"
+    
