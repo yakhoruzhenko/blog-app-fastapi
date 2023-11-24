@@ -15,6 +15,6 @@ micros:
     presets:
       env:
         - name: ADMIN_TOKEN
-          description: Secret message only available to this Micro
           default: "admin_token"
-    
+        - name: SECRET_KEY',
+          default: "fcb83a311c0ab22310e16417b84de96d496c5f80906b4e14c00b15de44f56a8c" 
