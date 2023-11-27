@@ -1,6 +1,6 @@
 fastapi==0.104.1
 pydantic==2.5.1
-sqlalchemy[mypy]==2.0.21
+sqlalchemy==2.0.21
 uvicorn==0.24.0.post1
 passlib==1.7.4
 bcrypt==4.0.1

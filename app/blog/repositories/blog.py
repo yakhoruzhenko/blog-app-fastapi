@@ -24,9 +24,8 @@ def get_all(db: Session) -> list[schemas.Blog]:
     return blogs
 
 
-def get_by_blog_id(blog_id: int, user_id: int, db: Session) -> schemas.Blog:
-    selected_blog = db.query(schemas.Blog).filter(schemas.Blog.id == blog_id,
-                                                  schemas.Blog.user_id == user_id).first()
+def get_by_blog_id(blog_id: int, db: Session) -> schemas.Blog:
+    selected_blog = db.query(schemas.Blog).filter(schemas.Blog.id == blog_id).first()
     if not selected_blog:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'Blog with the id {blog_id} is not found')
