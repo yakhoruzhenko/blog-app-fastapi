@@ -9,3 +9,6 @@
 *pytest_cache
 *coverage
 **/*report.txt
+**profiling_results
+.space
+*erd_from_sqlite.png
